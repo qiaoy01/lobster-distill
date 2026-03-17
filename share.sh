@@ -60,17 +60,33 @@ echo "[+] Uploaded / 已上传: $URL"
 # 仅清理临时目录（由上方 mktemp 创建，只包含我们的打包/加密副本）
 rm -rf "$TMPDIR"
 
-# Output Notes / 输出 Notes
+# ============================================================
+# MESSAGE 1: For the human admin / 第一条消息：给管理员
+# ============================================================
 echo ""
 echo "========================================="
-echo "  SKILL SHARE NOTES / 技能传授 Notes"
+echo "  MESSAGE 1: FOR YOU (ADMIN)"
+echo "  第一条消息：给你（管理员）"
 echo "========================================="
 echo ""
 echo "📦 Skill / 技能: $DESC"
 echo "📁 Source / 来源: $BASENAME ($FILETYPE, $SIZE encrypted / 已加密)"
 echo "⏰ Expires in 24 hours / 24小时后过期"
+echo "🔑 Password / 密码: $PASSWORD"
+echo "🔗 URL / 链接: $URL"
 echo ""
-echo "--- Forward the following to the target OpenClaw / 转发以下内容给对方 OpenClaw ---"
+echo "👉 Please forward MESSAGE 2 below to the target OpenClaw agent."
+echo "👉 请将下方的【第二条消息】完整转发给目标龙虾。"
+echo ""
+
+# ============================================================
+# MESSAGE 2: For the target agent (copy-paste this entire block)
+# 第二条消息：给目标龙虾（完整复制粘贴转发此内容）
+# ============================================================
+echo "========================================="
+echo "  MESSAGE 2: FORWARD THIS TO THE TARGET"
+echo "  第二条消息：将以下内容完整转发给对方"
+echo "========================================="
 echo ""
 
 if [ "$FILETYPE" = "tar.gz" ]; then
@@ -132,7 +148,6 @@ NOTES
 fi
 
 echo ""
-echo "--- End of forwarded content / 转发内容结束 ---"
-echo ""
-echo "🔑 Password / 密码: $PASSWORD"
-echo "🔗 URL / 链接: $URL"
+echo "========================================="
+echo "  END OF MESSAGE 2 / 第二条消息结束"
+echo "========================================="

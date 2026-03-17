@@ -106,7 +106,9 @@ The AI will automatically | AI 会自动：
 1. Pack the skill directory into tar.gz | 将技能目录打包为 tar.gz
 2. Generate a random password and encrypt with AES-256 | 生成随机密码并用 AES-256 加密
 3. Upload to litterbox.catbox.moe (24h expiry) | 上传到 litterbox.catbox.moe（24h 有效）
-4. Print Notes for the admin | 打印 Notes 给管理员
+4. Output **two separate messages** | 输出**两条独立消息**：
+   - **Message 1** (for admin): Summary with URL and password / 给管理员的摘要（含链接和密码）
+   - **Message 2** (to forward): Complete instructions for the target agent / 给目标龙虾的完整指令（直接转发）
 
 ### Receive a Skill | 接收技能
 
