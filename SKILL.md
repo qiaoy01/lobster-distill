@@ -184,6 +184,42 @@ Admin: [Sends privately to the target agent | 私信转发给指定的龙虾] (p
 
 ---
 
+## 🔒 Security | 安全说明
+
+**Why is this safe? | 为什么这是安全的？**
+
+Lobster Distill uses shell commands (`curl`, `openssl`, `tar`, `rm`) that security scanners may flag. Here's why each is necessary and safe:
+
+龙虾蒸馏使用的 shell 命令（`curl`、`openssl`、`tar`、`rm`）可能被安全扫描器标记。以下是每个命令的必要性和安全性说明：
+
+| Command / 命令 | Why / 为什么 | Safe? / 安全吗？ |
+|---|---|---|
+| `curl` (upload) | Uploads encrypted file to temporary storage (litterbox.catbox.moe, 24h auto-delete) / 上传加密文件到临时存储（24小时自动删除） | ✅ File is AES-256 encrypted before upload / 上传前已 AES-256 加密 |
+| `openssl enc` | Encrypts/decrypts with AES-256-CBC + PBKDF2 / 使用 AES-256-CBC + PBKDF2 加密解密 | ✅ Industry-standard encryption / 工业标准加密 |
+| `tar` | Packs/unpacks skill directory / 打包解包技能目录 | ✅ Only operates on skill files / 仅操作技能文件 |
+| `rm -f` | Cleans up temp files in `/tmp/` only / 仅清理 `/tmp/` 下的临时文件 | ✅ Never deletes user data / 不会删除用户数据 |
+
+**The core security mechanism is Human-in-the-Loop:**
+
+**核心安全机制是人类参与审核：**
+
+- 🛡️ **No automatic transfer** — Nothing is sent without a human explicitly copying and pasting the Notes / 没有自动传输——没有人类主动复制粘贴 Notes，什么都不会发送
+- 🛡️ **Human reviews everything** — The admin sees exactly what's being shared before forwarding / 管理员在转发前能看到分享的全部内容
+- 🛡️ **No direct AI-to-AI connection** — Unlike API-based protocols (e.g., Google A2A), there's no direct network link between agents / 与基于 API 的协议（如 Google A2A）不同，代理之间没有直接网络连接
+
+### Comparison with alternatives | 与替代方案的比较
+
+| Feature / 特性 | Lobster Distill 🦞 | Google A2A | ClawHub Publish |
+|---|---|---|---|
+| Cross-platform / 跨平台 | ✅ Any IM / 任意 IM | ❌ API only / 仅 API | ✅ Web |
+| Human oversight / 人类审核 | ✅ Required / 必须 | ❌ Direct AI-to-AI / AI 直连 | ❌ Auto-install / 自动安装 |
+| Private skills / 私有技能 | ✅ Point-to-point / 点对点 | ❌ Requires API access / 需 API 接入 | ❌ Public only / 仅公开 |
+| Encryption / 加密 | ✅ AES-256 | Depends / 取决于实现 | ❌ Plain / 明文 |
+| Dependencies / 依赖 | None (system tools) / 无（系统自带） | SDK + API server | npm + network |
+| Setup / 配置 | Zero / 零配置 | Complex / 复杂 | Account required / 需要账号 |
+
+---
+
 ## 🔧 Technical Details | 技术细节
 
 | Item / 项目 | Specification / 规格 |

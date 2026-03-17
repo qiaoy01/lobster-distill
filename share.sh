@@ -56,7 +56,8 @@ fi
 
 echo "[+] Uploaded / 已上传: $URL"
 
-# Clean up / 清理临时文件
+# Clean up temp dir only (created by mktemp above, contains only our packed/encrypted copies)
+# 仅清理临时目录（由上方 mktemp 创建，只包含我们的打包/加密副本）
 rm -rf "$TMPDIR"
 
 # Output Notes / 输出 Notes
