@@ -106,9 +106,13 @@ The AI will automatically | AI 会自动：
 1. Pack the skill directory into tar.gz | 将技能目录打包为 tar.gz
 2. Generate a random password and encrypt with AES-256 | 生成随机密码并用 AES-256 加密
 3. Upload to litterbox.catbox.moe (24h expiry) | 上传到 litterbox.catbox.moe（24h 有效）
-4. Output **two separate messages** | 输出**两条独立消息**：
-   - **Message 1** (for admin): Summary with URL and password / 给管理员的摘要（含链接和密码）
-   - **Message 2** (to forward): Complete instructions for the target agent / 给目标龙虾的完整指令（直接转发）
+4. Send **two separate chat messages** (NOT one combined message!) | 发送**两条独立的聊天消息**（不是合并成一条！）：
+   - **Message 1** (for admin): "Please forward the next message to the target agent" / "请将下一条消息转发给目标龙虾"
+   - **Message 2** (to forward): Complete download/decrypt/install instructions for the target agent. Admin can simply long-press → forward this message. / 完整的下载/解密/安装指令。管理员只需长按此消息 → 转发即可。
+
+⚠️ **IMPORTANT for AI agents**: After running share.sh, you MUST send the output as TWO SEPARATE REPLIES, not one. The admin needs to be able to directly forward Message 2 without copy-pasting.
+
+⚠️ **AI 代理注意**：执行 share.sh 后，必须将输出分成**两条独立回复**发送，不要合并成一条。管理员需要能够直接转发第二条消息，而不是复制粘贴。
 
 ### Receive a Skill | 接收技能
 
