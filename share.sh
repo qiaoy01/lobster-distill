@@ -1,7 +1,7 @@
 #!/bin/bash
-# Skill Share - Pack, encrypt, upload
-# Usage: bash share.sh <path> [description]
-# <path> can be a file or directory
+# Lobster Distill - Pack, Encrypt, Upload / 龙虾蒸馏 - 打包、加密、上传
+# Usage / 用法: bash share.sh <path> [description]
+# <path> can be a file or directory / <path> 可以是文件或目录
 
 set -e
 
@@ -10,126 +10,128 @@ DESC="${2:-Skill package}"
 TMPDIR=$(mktemp -d)
 
 if [ -z "$SRC" ]; then
-    echo "Usage: bash share.sh <file-or-dir> [description]"
+    echo "Usage / 用法: bash share.sh <file-or-dir> [description]"
+    echo "  <file-or-dir>: skill directory or single file / 技能目录或单个文件"
+    echo "  [description]: brief description / 简要描述"
     exit 1
 fi
 
-# Generate random password (24 chars, alphanumeric + symbols)
+# Generate random password (24 chars) / 生成随机密码（24 字符）
 PASSWORD=$(openssl rand -base64 18)
 
-# Determine name
+# Determine name / 确定名称
 BASENAME=$(basename "$SRC")
 
 if [ -d "$SRC" ]; then
-    # Directory: tar it up
+    # Directory: tar it up / 目录：打包为 tar.gz
     PACKED="$TMPDIR/${BASENAME}.tar.gz"
     tar czf "$PACKED" -C "$SRC" .
     FILETYPE="tar.gz"
-    echo "[+] Packed directory: $SRC -> $PACKED"
+    echo "[+] Packed directory / 已打包目录: $SRC -> $PACKED"
 else
-    # Single file: copy as-is
+    # Single file: copy as-is / 单文件：直接复制
     PACKED="$TMPDIR/$BASENAME"
     cp "$SRC" "$PACKED"
     FILETYPE="file"
-    echo "[+] Using file: $SRC"
+    echo "[+] Using file / 使用文件: $SRC"
 fi
 
-# Encrypt with AES-256-CBC + PBKDF2
+# Encrypt with AES-256-CBC + PBKDF2 / 使用 AES-256-CBC + PBKDF2 加密
 ENCRYPTED="$TMPDIR/${BASENAME}.enc"
 openssl enc -aes-256-cbc -pbkdf2 -salt -in "$PACKED" -out "$ENCRYPTED" -k "$PASSWORD"
-echo "[+] Encrypted with AES-256-CBC"
+echo "[+] Encrypted with AES-256-CBC / 已加密"
 
-# Get file size
+# Get file size / 获取文件大小
 SIZE=$(du -h "$ENCRYPTED" | cut -f1)
 
-# Upload to litterbox (24h)
-echo "[+] Uploading to litterbox..."
+# Upload to litterbox (24h) / 上传到 litterbox（24小时有效）
+echo "[+] Uploading to litterbox / 正在上传..."
 URL=$(curl -s -F "reqtype=fileupload" -F "time=24h" -F "fileToUpload=@$ENCRYPTED" https://litterbox.catbox.moe/resources/internals/api.php)
 
 if [ -z "$URL" ] || echo "$URL" | grep -qi "error"; then
-    echo "[-] Upload failed: $URL"
+    echo "[-] Upload failed / 上传失败: $URL"
     rm -rf "$TMPDIR"
     exit 1
 fi
 
-echo "[+] Uploaded: $URL"
+echo "[+] Uploaded / 已上传: $URL"
 
-# Clean up
+# Clean up / 清理临时文件
 rm -rf "$TMPDIR"
 
-# Output Notes
+# Output Notes / 输出 Notes
 echo ""
 echo "========================================="
-echo "  SKILL SHARE NOTES"
+echo "  SKILL SHARE NOTES / 技能传授 Notes"
 echo "========================================="
 echo ""
-echo "📦 Skill: $DESC"
-echo "📁 Source: $BASENAME ($FILETYPE, $SIZE encrypted)"
-echo "⏰ Expires: 24 hours from now"
+echo "📦 Skill / 技能: $DESC"
+echo "📁 Source / 来源: $BASENAME ($FILETYPE, $SIZE encrypted / 已加密)"
+echo "⏰ Expires in 24 hours / 24小时后过期"
 echo ""
-echo "--- 转发以下内容给对方 OpenClaw ---"
+echo "--- Forward the following to the target OpenClaw / 转发以下内容给对方 OpenClaw ---"
 echo ""
 
 if [ "$FILETYPE" = "tar.gz" ]; then
 cat << NOTES
-🦞 技能传授包
+🦞 Skill Transfer Package / 技能传授包
 
-**技能:** $DESC
-**文件:** ${BASENAME}.tar.gz (已加密)
-**大小:** $SIZE
+**Skill / 技能:** $DESC
+**File / 文件:** ${BASENAME}.tar.gz (encrypted / 已加密)
+**Size / 大小:** $SIZE
 
-**下载与安装步骤：**
+**Download & Install Steps / 下载与安装步骤：**
 
 \`\`\`bash
-# 1. 下载加密文件
+# 1. Download encrypted file / 下载加密文件
 curl -o /tmp/${BASENAME}.enc "$URL"
 
-# 2. 解密
+# 2. Decrypt / 解密
 openssl enc -aes-256-cbc -d -pbkdf2 -in /tmp/${BASENAME}.enc -out /tmp/${BASENAME}.tar.gz -k "$PASSWORD"
 
-# 3. 解压到技能目录
+# 3. Extract to skills directory / 解压到技能目录
 mkdir -p skills/${BASENAME}
-tar xzf /tmp/${BASENAME}.tar.gz -C skills/ 
+tar xzf /tmp/${BASENAME}.tar.gz -C skills/${BASENAME}/
 
-# 4. 阅读技能文档
+# 4. Read the skill documentation / 阅读技能文档
 cat skills/${BASENAME}/SKILL.md
 
-# 5. 清理临时文件
+# 5. Clean up temp files / 清理临时文件
 rm -f /tmp/${BASENAME}.enc /tmp/${BASENAME}.tar.gz
 \`\`\`
 
-⏰ 链接24小时后过期，请尽快下载。
+⏰ Link expires in 24 hours, download ASAP. / 链接24小时后过期，请尽快下载。
 NOTES
 else
 cat << NOTES
-🦞 技能传授包
+🦞 Skill Transfer Package / 技能传授包
 
-**技能:** $DESC
-**文件:** ${BASENAME} (已加密)
-**大小:** $SIZE
+**Skill / 技能:** $DESC
+**File / 文件:** ${BASENAME} (encrypted / 已加密)
+**Size / 大小:** $SIZE
 
-**下载与安装步骤：**
+**Download & Install Steps / 下载与安装步骤：**
 
 \`\`\`bash
-# 1. 下载加密文件
+# 1. Download encrypted file / 下载加密文件
 curl -o /tmp/${BASENAME}.enc "$URL"
 
-# 2. 解密
+# 2. Decrypt / 解密
 openssl enc -aes-256-cbc -d -pbkdf2 -in /tmp/${BASENAME}.enc -out /tmp/${BASENAME} -k "$PASSWORD"
 
-# 3. 阅读内容
+# 3. Read the content / 阅读内容
 cat /tmp/${BASENAME}
 
-# 4. 清理
+# 4. Clean up / 清理
 rm -f /tmp/${BASENAME}.enc
 \`\`\`
 
-⏰ 链接24小时后过期，请尽快下载。
+⏰ Link expires in 24 hours, download ASAP. / 链接24小时后过期，请尽快下载。
 NOTES
 fi
 
 echo ""
-echo "--- 转发内容结束 ---"
+echo "--- End of forwarded content / 转发内容结束 ---"
 echo ""
-echo "🔑 Password: $PASSWORD"
-echo "🔗 URL: $URL"
+echo "🔑 Password / 密码: $PASSWORD"
+echo "🔗 URL / 链接: $URL"
