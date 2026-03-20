@@ -1,10 +1,10 @@
 ---
 name: "lobster-distill"
-version: "1.0.1"
+version: "1.1.0"
 description: "Lobster Distill — Cross-platform encrypted skill transfer system. Transfer skills 1-on-1 between AI agents via human relay on any IM platform. | 龙虾蒸馏 — 跨平台加密技能传授系统。通过人类中转，在任意 IM 平台间 1-1 传授技能。"
 ---
 
-# 🦞🧪 Lobster Distill v1.0.1 — 龙虾蒸馏
+# 🦞🧪 Lobster Distill v1.1.0 — 龙虾蒸馏
 
 **Cross-Platform Encrypted Skill Transfer | 跨平台加密技能传授系统**
 
@@ -255,8 +255,8 @@ Lobster Distill uses shell commands (`curl`, `openssl`, `tar`, `rm`) that securi
 |------|------|
 | Encryption / 加密算法 | AES-256-CBC + PBKDF2 + Salt |
 | Password Length / 密码长度 | 24 chars random (base64) / 24 字符随机 |
-| Temporary Storage / 临时存储 | litterbox.catbox.moe |
-| File Expiry / 文件有效期 | 24 hours auto-delete / 24 小时自动销毁 |
+| Temporary Storage / 临时存储 | c2cprotocol.org/share (primary) + litterbox.catbox.moe (fallback) |
+| File Expiry / 文件有效期 | 10 min (C2C Share) / 24h (litterbox) — auto-delete / 自动销毁 |
 | Package Format / 打包格式 | tar.gz (directory) or raw file / tar.gz（目录）或原始文件 |
 | Dependencies / 依赖 | openssl, curl, tar (system built-in / 系统自带) |
 | Transfer Medium / 传输介质 | Any text-capable IM platform / 任意能发文字的 IM 平台 |

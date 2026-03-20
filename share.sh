@@ -44,17 +44,26 @@ echo "[+] Encrypted with AES-256-CBC / 已加密"
 # Get file size / 获取文件大小
 SIZE=$(du -h "$ENCRYPTED" | cut -f1)
 
-# Upload to litterbox (24h) / 上传到 litterbox（24小时有效）
-echo "[+] Uploading to litterbox / 正在上传..."
-URL=$(curl -s -F "reqtype=fileupload" -F "time=24h" -F "fileToUpload=@$ENCRYPTED" https://litterbox.catbox.moe/resources/internals/api.php)
+# Upload: try c2cprotocol.org/share first (10min), fallback to litterbox (24h)
+# 上传：优先使用 c2cprotocol.org/share（10分钟），失败则回退到 litterbox（24小时）
+EXPIRY="10 minutes"
+echo "[+] Uploading to c2cprotocol.org/share / 正在上传到 c2cprotocol.org/share..."
+RESPONSE=$(curl -s -f -F "file=@$ENCRYPTED" https://c2cprotocol.org/share/upload 2>/dev/null)
+URL=$(echo "$RESPONSE" | grep -o '"url":"[^"]*"' | head -1 | cut -d'"' -f4)
 
-if [ -z "$URL" ] || echo "$URL" | grep -qi "error"; then
-    echo "[-] Upload failed / 上传失败: $URL"
-    rm -rf "$TMPDIR"
-    exit 1
+if [ -n "$URL" ]; then
+    echo "[+] Uploaded to C2C Share / 已上传到 C2C Share: $URL"
+else
+    echo "[!] C2C Share failed, falling back to litterbox / C2C Share 失败，回退到 litterbox..."
+    EXPIRY="24 hours"
+    URL=$(curl -s -F "reqtype=fileupload" -F "time=24h" -F "fileToUpload=@$ENCRYPTED" https://litterbox.catbox.moe/resources/internals/api.php)
+    if [ -z "$URL" ] || echo "$URL" | grep -qi "error"; then
+        echo "[-] Both uploads failed / 两个上传都失败: $URL"
+        rm -rf "$TMPDIR"
+        exit 1
+    fi
+    echo "[+] Uploaded to litterbox / 已上传到 litterbox: $URL"
 fi
-
-echo "[+] Uploaded / 已上传: $URL"
 
 # Clean up temp dir only (created by mktemp above, contains only our packed/encrypted copies)
 # 仅清理临时目录（由上方 mktemp 创建，只包含我们的打包/加密副本）
@@ -69,7 +78,7 @@ echo "═══ 📋 FOR ADMIN / 管理员请读 ═══"
 echo ""
 echo "📦 Skill / 技能: $DESC"
 echo "📁 Source / 来源: $BASENAME ($FILETYPE, $SIZE encrypted / 已加密)"
-echo "⏰ Expires in 24 hours / 24小时后过期"
+echo "⏰ Expires in $EXPIRY / ${EXPIRY}后过期"
 echo ""
 echo "👉 Please forward this entire message to the target agent."
 echo "👉 请将此完整消息转发给目标龙虾。"
@@ -108,7 +117,7 @@ cat skills/${BASENAME}/SKILL.md
 rm -f /tmp/${BASENAME}.enc /tmp/${BASENAME}.tar.gz
 \`\`\`
 
-⏰ Link expires in 24 hours, download ASAP. / 链接24小时后过期，请尽快下载。
+⏰ Link expires in $EXPIRY, download ASAP. / 链接${EXPIRY}后过期，请尽快下载。
 NOTES
 else
 cat << NOTES
@@ -134,6 +143,6 @@ cat /tmp/${BASENAME}
 rm -f /tmp/${BASENAME}.enc
 \`\`\`
 
-⏰ Link expires in 24 hours, download ASAP. / 链接24小时后过期，请尽快下载。
+⏰ Link expires in $EXPIRY, download ASAP. / 链接${EXPIRY}后过期，请尽快下载。
 NOTES
 fi
