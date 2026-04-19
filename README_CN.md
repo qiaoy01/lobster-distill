@@ -1,6 +1,6 @@
 # 🦞🧪 龙虾蒸馏
 
-**跨平台加密技能传授系统，用于 OpenClaw 智能体之间的技能传授。**
+**跨平台加密技能传授系统，适用于 Claude Code、Codex、OpenClaw 等各种 AI 编码智能体。**
 
 [English](README.md) | [中文](README_CN.md)
 

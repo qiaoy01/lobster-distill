@@ -1,6 +1,6 @@
 # 🦞🧪 Lobster Distill
 
-**Cross-platform encrypted skill transfer for OpenClaw agents.**
+**Cross-platform encrypted skill transfer for AI coding agents — Claude Code, Codex, OpenClaw, and others.**
 
 [English](README.md) | [中文](README_CN.md)
 

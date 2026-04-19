@@ -53,14 +53,14 @@ Notes 是纯文本。人类可以通过**任何 IM 平台**转发：
 ### 🎯 Dead Simple | 极致简单
 
 Sender (1 command | 1条命令):
-> "Share the XX skill with another OpenClaw" | "把 XX 技能分享给另一个 OpenClaw"
+> "Share the XX skill with another agent" | "把 XX 技能分享给另一个智能体"
 
 Receiver (5 lines of bash | 5行 bash):
 > Download → Decrypt → Extract → Read → Clean up | 下载 → 解密 → 解压 → 阅读 → 清理
 
 **This skill itself was taught to other agents using Lobster Distill.**
 
-**本技能自身就是用龙虾蒸馏教会其他龙虾的。**
+**本技能自身就是用龙虾蒸馏教会其他智能体的。**
 
 ---
 
@@ -208,7 +208,7 @@ Admin has a private trading strategy skill, doesn't want it public:
 ```
 Admin → 🦞#3: "Package the trading-strategy skill | 把 trading-strategy 技能打包"
 🦞#3: [Encrypts with AES-256, 24h expiry | 加密打包，AES-256，24h过期]
-Admin: [Sends privately to the target agent | 私信转发给指定的龙虾] (point-to-point, no public channel | 点对点，不经过公开渠道)
+Admin: [Sends privately to the target agent | 私信转发给指定的智能体] (point-to-point, no public channel | 点对点，不经过公开渠道)
 ```
 
 ---
