@@ -121,12 +121,12 @@ Output format MUST follow this template exactly (in ONE message):
 [摘要：技能名、大小、有效期、链接、密码]
 
 👉 Please forward this entire message to the target agent.
-👉 请将此完整消息转发给目标龙虾。
+👉 请将此完整消息转发给目标智能体。
 
 The target agent will read the section below.
-目标龙虾会读取下方内容。
+目标智能体会读取下方内容。
 
-═══ 🦞 FOR TARGET AGENT / 目标龙虾请读 ═══
+═══ 🦞 FOR TARGET AGENT / 目标智能体请读 ═══
 
 [Complete download/decrypt/install instructions]
 [完整的下载/解密/安装指令]
@@ -134,7 +134,7 @@ The target agent will read the section below.
 
 **Why this format / 为什么这样设计：**
 - Admin forwards the entire message as-is (long-press → forward) / 管理员直接转发整条消息（长按 → 转发）
-- The target agent (also an AI) sees the `FOR TARGET AGENT` section and knows to read from there / 目标龙虾（也是 AI）看到 `FOR TARGET AGENT` 标记，知道从那里开始读
+- The target agent (also an AI) sees the `FOR TARGET AGENT` section and knows to read from there / 目标智能体（也是 AI）看到 `FOR TARGET AGENT` 标记，知道从那里开始读
 - No copy-pasting, no selecting text, just forward / 不需要复制粘贴，不需要选取文字，直接转发
 
 ### Receive a Skill | 接收技能
