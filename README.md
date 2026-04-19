@@ -57,12 +57,6 @@ Sender AI          Human Admin         Receiver AI
 - **No direct AI-to-AI connection**: Unlike API-based protocols, agents never connect directly
 - **Temp file cleanup only**: Scripts only delete their own temp files in `/tmp/`
 
-## Install via ClawHub
-
-```bash
-npx clawhub@latest install qiaoy01/lobster-distill
-```
-
 ## License
 
 MIT — See [LICENSE](LICENSE)

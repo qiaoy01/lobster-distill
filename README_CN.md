@@ -57,12 +57,6 @@ bash receive.sh <链接> <密码> <名称> tar
 - **无 AI 直连**：与基于 API 的协议不同，智能体之间没有直接网络连接
 - **仅清理临时文件**：脚本只删除自己在 `/tmp/` 下创建的临时文件
 
-## 通过 ClawHub 安装
-
-```bash
-npx clawhub@latest install qiaoy01/lobster-distill
-```
-
 ## 许可证
 
 MIT — 见 [LICENSE](LICENSE)
